@@ -19,7 +19,7 @@ const ContactFormScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.header}>Contact Us</Text>
+        {/* <Text style={styles.header}>Contact Us</Text> */}
         <Text style={styles.label}>Name:</Text>
         <TextInput
           style={styles.input}
@@ -56,7 +56,7 @@ const ContactFormScreen = () => {
         <Button
           title="Submit"
           onPress={handleSubmit}
-          color="#30334c"
+          color="#8aa8a1ff"
         />
         <Text style={styles.contactInfo}>
           For any inquiries, please contact us at: prateek21b@iiitg.ac.in
@@ -69,27 +69,27 @@ const ContactFormScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eaedf6',
+    backgroundColor: '#DAD7CD',
   },
   content: {
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  header: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#30334c',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
+  // header: {
+  //   fontSize: 32,
+  //   fontWeight: 'bold',
+  //   color: '#30334c',
+  //   marginBottom: 20,
+  //   textAlign: 'center',
+  // },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: '#30334c',
+    color: '#344E41',
   },
   input: {
-    backgroundColor: '#b1c2db',
+    backgroundColor: '#DAD7CD',
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   contactInfo: {
     marginTop: 20,
     fontSize: 14,
-    color: '#000000',
+    color: '#344E41',
     textAlign: 'center',
   },
 });

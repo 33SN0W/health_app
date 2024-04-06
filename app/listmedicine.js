@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Button, Text, SafeAreaView, TextInput, FlatList } from 'react-native';
+import { View, Button, Text, SafeAreaView, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import dataset from './medicines.json';
+import styles from './styles';
 
 const FindMedicinesScreen = ({ onSearch }) => {
   const [query, setQuery] = useState('');
@@ -13,7 +14,7 @@ const FindMedicinesScreen = ({ onSearch }) => {
       if (!item.Description || !item.Drug_Name) {
         return false; // Skip this item if Description or Drug_Name is missing
       }
-  
+
       // Assuming the dataset has properties for symptoms and medicine names
       return (
         item.Description.toLowerCase().includes(query.toLowerCase()) ||
@@ -34,23 +35,24 @@ const FindMedicinesScreen = ({ onSearch }) => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <View style={{ backgroundColor: '#D37676', padding: 10, alignItems: 'center' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#DAD7CD' }}>
+      {/* <View style={{ backgroundColor: '#DAD7CD', padding: 10, alignItems: 'center' }}>
         <Text style={{ fontSize: 24 }}>List Medicines</Text>
-      </View>
+      </View> */}
 
-      <View style={{ backgroundColor: '#F0F0F0', padding: 10 }}>
-        <Text style={{ fontSize: 18, textAlign: 'left', marginVertical: 5 }}>
+      <View style={{ backgroundColor: '#DAD7CD', padding: 10 }}>
+        <Text style={{ fontSize: 18, textAlign: 'center',color:'#344E41', marginVertical: 5 }}>
           Enter symptoms or medicine name to find related medicines.
         </Text>
 
         <TextInput
-          style={{ fontSize: 16, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CCCCCC', borderRadius: 5, paddingHorizontal: 10, marginVertical: 5 }}
+          style={{ fontSize: 16, backgroundColor: '#DAD7CD', paddingHorizontal: 10, color: '#344E41', marginVertical: 5, textAlign: 'center' }}
           placeholder="Enter symptoms or medicine name"
           onChangeText={text => setQuery(text)}
           value={query}
         />
-        <Button title="Search" onPress={handleSearch} color="#D37676" style={{ marginVertical: 5 }} />
+        <Button title="Search" onPress={handleSearch} color="#8aa8a1ff" style={{ marginVertical: 5 }} />
+        {/* <CustomButton title="Search" onPress={handleSearch} /> */}
 
         <FlatList
           data={searchResults}
@@ -62,5 +64,11 @@ const FindMedicinesScreen = ({ onSearch }) => {
     </SafeAreaView>
   );
 };
+
+const CustomButton = ({ title, onPress }) => (
+  <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+    <Text style={styles.buttonText}>{title}</Text>
+  </TouchableOpacity>
+);
 
 export default FindMedicinesScreen;
