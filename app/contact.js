@@ -28,13 +28,13 @@ const ContactFormScreen = () => {
           placeholder="Enter your name"
         />
         <Text style={styles.label}>Phone Number:</Text>
-        <TextInput
+         <TextInput
           style={styles.input}
           value={number}
           onChangeText={setNumber}
           placeholder="Enter your phone number"
           keyboardType="phone-pad"
-        />
+        /> 
         <Text style={styles.label}>Address:</Text>
         <TextInput
           style={styles.input}

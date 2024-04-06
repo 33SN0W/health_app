@@ -11,7 +11,7 @@ import DiseasePredictionScreen from './app/diseasepredictionscreen';
 import ContactFormScreen from './app/contact';
 import {Appearance} from 'react-native';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image  } from 'react-native';
-
+import ChatScreen from './app/chatbot';
 const Stack = createStackNavigator();
 const drawer = createDrawerNavigator();
 
@@ -101,6 +101,7 @@ const drawer = createDrawerNavigator();
             <Stack.Screen name="Medicine List" component={medlistScreen} />
             <Stack.Screen name="Contact Form" component={ContactFormScreen} />
             <Stack.Screen name="Disease Prediction System" component={DiseasePredictionScreen} />
+            <Stack.Screen name="Chatbot" component={ChatScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>
@@ -121,7 +122,9 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate('Disease Prediction System');
   
   };
-
+  const handleChatBotPress = () => {
+    navigation.navigate('Chatbot');
+  };
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -139,13 +142,13 @@ const HomeScreen = ({ navigation }) => {
         <CustomButton title="Disease prediction" onPress={handledpPress} />
         <CustomButton title="List medicines" onPress={handlemedlistPress} />
         <CustomButton title="List doctors" onPress={() => handleButtonPress(1)} />
-        <CustomButton title="Chatbot" onPress={() => handleButtonPress(1)} />
+        <CustomButton title="Chatbot" onPress={handleChatBotPress()} />
         <CustomButton title="Contact us" onPress={handleContactUsPress} />
 
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>© 2024 PRATEEK Inc.</Text>
+        <Text style={styles.footerText}>Â© 2024 PRATEEK Inc.</Text>
       </View>
     </View>
   );
