@@ -1,137 +1,110 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-// import styles from './styles'; 
-import { Button } from 'react-native';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image  } from 'react-native';
-const DiseasePredictionScreen = ({ navigation }) => {
-  const handleButton1Press = () => {
-    // Handle logic for button 1 press
+import React, { useState } from 'react';
+import { View, Text, Switch, Button, StyleSheet, ScrollView } from 'react-native';
+
+const symptoms = [
+  "itching", "skin_rash", "nodal_skin_eruptions", "continuous_sneezing", "shivering", "chills", "joint_pain", "stomach_pain",
+  "acidity", "ulcers_on_tongue", "muscle_wasting", "vomiting", "burning_micturition", "spotting_ urination", "fatigue", "weight_gain",
+  "anxiety", "cold_hands_and_feets", "mood_swings", "weight_loss", "restlessness", "lethargy", "patches_in_throat", "irregular_sugar_level",
+  "cough", "high_fever", "sunken_eyes", "breathlessness", "sweating", "dehydration", "indigestion", "headache", "yellowish_skin",
+  "dark_urine", "nausea", "loss_of_appetite", "pain_behind_the_eyes", "back_pain", "constipation", "abdominal_pain", "diarrhoea",
+  "mild_fever", "yellow_urine", "yellowing_of_eyes", "acute_liver_failure", "fluid_overload", "swelling_of_stomach", "swelled_lymph_nodes",
+  "malaise", "blurred_and_distorted_vision", "phlegm", "throat_irritation", "redness_of_eyes", "sinus_pressure", "runny_nose", "congestion",
+  "chest_pain", "weakness_in_limbs", "fast_heart_rate", "pain_during_bowel_movements", "pain_in_anal_region", "bloody_stool", "irritation_in_anus",
+  "neck_pain", "dizziness", "cramps", "bruising", "obesity", "swollen_legs", "swollen_blood_vessels", "puffy_face_and_eyes", "enlarged_thyroid",
+  "brittle_nails", "swollen_extremeties", "excessive_hunger", "extra_marital_contacts", "drying_and_tingling_lips", "slurred_speech", "knee_pain",
+  "hip_joint_pain", "muscle_weakness", "stiff_neck", "swelling_joints", "movement_stiffness", "spinning_movements", "loss_of_balance", "unsteadiness",
+  "weakness_of_one_body_side", "loss_of_smell", "bladder_discomfort", "foul_smell_of urine", "continuous_feel_of_urine", "passage_of_gases",
+  "internal_itching", "toxic_look_(typhos)", "depression", "irritability", "muscle_pain", "altered_sensorium", "red_spots_over_body",
+  "belly_pain", "abnormal_menstruation", "dischromic _patches", "watering_from_eyes", "increased_appetite", "polyuria", "family_history",
+  "mucoid_sputum", "rusty_sputum", "lack_of_concentration", "visual_disturbances", "receiving_blood_transfusion", "receiving_unsterile_injections",
+  "coma", "stomach_bleeding", "distention_of_abdomen", "history_of_alcohol_consumption", "fluid_overload", "blood_in_sputum", "prominent_veins_on_calf",
+  "palpitations", "painful_walking", "pus_filled_pimples", "blackheads", "scurring", "skin_peeling", "silver_like_dusting", "small_dents_in_nails",
+  "inflammatory_nails", "blister", "red_sore_around_nose", "yellow_crust_ooze"
+];
+
+const QuestionnairePage = () => {
+  const [answers, setAnswers] = useState({});
+
+  const handleAnswer = (symptom, value) => {
+    setAnswers(prevAnswers => ({
+      ...prevAnswers,
+      [symptom]: value
+    }));
   };
-  const handleButton2Press = () => {
-    // Handle logic for button 2 press
+
+  const submitAnswers = () => {
+    const answeredSymptoms = Object.keys(answers).filter(symptom => answers[symptom]);
+    console.log("Symptoms answered yes:", answeredSymptoms);
+    // Convert answered symptoms to JSON object
+    const symptomsData = { symptoms: answeredSymptoms };
+    
+    // Example of sending data to a specific port using fetch
+    fetch('http://localhost:YOUR_PORT_NUMBER', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(symptomsData),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      // Handle success response from server
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle error
+    });
   };
 
   return (
     <View style={styles.container}>
-    <Image
-          source={require('C:/Users/user/projects/my-app/assets/health_iconl.png')} // Change path to your image
-          style={styles.image} // Apply styles to your image if needed
-        />
-    <Text style={[styles.description, { color: '#344E41' }, {padding: 'auto'}]}>Please select the specific option you want to continue with</Text>
-      <CustomButton title = "Specific disease" onPress={handleButton1Press}/>
-      <CustomButton title = "General Symptoms" onPress={handleButton1Press}/>
-
-     
+      <Text style={styles.heading}>Health Questionnaire</Text>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        {symptoms.map(symptom => (
+          <View key={symptom} style={styles.questionContainer}>
+            <Text style={styles.questionText}>{symptom.replace(/_/g, ' ')}</Text>
+            <Switch
+              trackColor={{ false: "#767577", true: "#81b0ff" }}
+              thumbColor={answers[symptom] ? "#f5dd4b" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={value => handleAnswer(symptom, value)}
+              value={answers[symptom] || false}
+            />
+          </View>
+        ))}
+      </ScrollView>
+      <Button title="Submit Answers" onPress={submitAnswers} />
     </View>
   );
 };
 
-const CustomButton = ({ title, onPress }) => (
-    <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
-      <Text style={styles.buttonText}>{title}</Text>
-    </TouchableOpacity>
-  );
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#DAD7CD',
+    padding: 20,
+    backgroundColor: '#ffffff',
   },
-  title: {
+  heading: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-  },
-  description:{
-    marginBottom: 20,
-    textAlign: 'center',
-    fontFamily: '',
-    fontSize : 20,
-  },
-  buttonContainer: {
-    backgroundColor: '#8aa8a1ff',
-    borderRadius: 30, // half of the desired button height for oval shape
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    marginBottom: 10,
-    width: 250,
-    // alignContent: 'center',
-    
-  },
-  buttonText: {
-    color: '#DAD7CD', // text color
-    fontSize: 16,
     textAlign: 'center',
   },
-  image: {flex: 1,
-    resizeMode: 'cover', // Cover the entire container
-    position: 'absolute',
-    top:-82,
-    left: 5.5,
-    right: 0,
-    bottom: 500,
-    opacity: 0.2, // 
+  scrollView: {
+    paddingBottom: 20,
+  },
+  questionContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
     width: '100%',
-  }
+  },
+  questionText: {
+    fontSize: 16,
+    flex: 1,
+  },
 });
 
-export default DiseasePredictionScreen;
-
-// import React from 'react';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
-
-// const DiseasePredictionScreen = ({ navigation }) => {
-//   const handleButton1Press = () => {
-//     // Handle logic for button 1 press
-//   };
-
-//   const handleButton2Press = () => {
-//     // Handle logic for button 2 press
-//   };
-
-//   return (
-//     <LinearGradient colors={['#DAD7CD', '#FFFFFF']} style={styles.container}>
-//       <Text style={[styles.description, { color: '#344E41' }]}>Please select the specific option you want to continue with</Text>
-//       <CustomButton title="Specific disease" onPress={handleButton1Press} />
-//       <CustomButton title="General Symptoms" onPress={handleButton1Press} />
-//     </LinearGradient>
-//   );
-// };
-
-// const CustomButton = ({ title, onPress }) => (
-//   <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
-//     <Text style={styles.buttonText}>{title}</Text>
-//   </TouchableOpacity>
-// );
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   description: {
-//     marginBottom: 20,
-//     textAlign: 'center',
-//     fontSize: 20,
-//   },
-//   buttonContainer: {
-//     backgroundColor: '#8aa8a1ff',
-//     borderRadius: 30,
-//     paddingVertical: 15,
-//     paddingHorizontal: 30,
-//     marginBottom: 10,
-//     width: 250,
-//   },
-//   buttonText: {
-//     color: '#DAD7CD',
-//     fontSize: 16,
-//     textAlign: 'center',
-//   },
-// });
-
-// export default DiseasePredictionScreen;
+export default QuestionnairePage;

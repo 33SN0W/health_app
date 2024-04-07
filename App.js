@@ -12,8 +12,11 @@ import ContactFormScreen from './app/contact';
 import {Appearance} from 'react-native';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image  } from 'react-native';
 import ChatScreen from './app/chatbot';
+import GeneralSymptomScreen from './app/generalsymptoms';
+
 const Stack = createStackNavigator();
 const drawer = createDrawerNavigator();
+
 
   // const StartScreen = () => {
   //   return (
@@ -102,6 +105,7 @@ const drawer = createDrawerNavigator();
             <Stack.Screen name="Contact Form" component={ContactFormScreen} />
             <Stack.Screen name="Disease Prediction System" component={DiseasePredictionScreen} />
             <Stack.Screen name="Chatbot" component={ChatScreen} />
+            <Stack.Screen name="GeneralSymptoms" component={GeneralSymptomScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>
