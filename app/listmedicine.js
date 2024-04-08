@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Button, Text, SafeAreaView, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import dataset from './medicines.json';
-import styles from './styles';
 
 const FindMedicinesScreen = ({ onSearch }) => {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearch = () => {
     // Search logic based on the dataset
@@ -21,6 +21,13 @@ const FindMedicinesScreen = ({ onSearch }) => {
         item.Drug_Name.toLowerCase().includes(query.toLowerCase())
       );
     });
+
+    if (results.length === 0) {
+      setErrorMessage('No results found. Please try again!');
+    } else {
+      setErrorMessage('');
+    }
+
     setSearchResults(results);
     if (onSearch) {
       onSearch(results);
@@ -28,31 +35,73 @@ const FindMedicinesScreen = ({ onSearch }) => {
   };
   
   const renderItem = ({ item }) => (
-    <View style={{ padding: 10 }}>
-      <Text style={{ fontSize: 18 }}>{item.Drug_Name}</Text>
-      <Text style={{ fontSize: 16 }}>Symptoms: {item.Description}</Text>
-    </View>
+    <TouchableOpacity style={styles.itemContainer}>
+      <Text style={styles.itemTitle}>{item.Drug_Name}</Text>
+      <Text style={styles.itemDescription}>Symptoms: {item.Description}</Text>
+    </TouchableOpacity>
   );
+
+  const styles = {
+    itemContainer: {
+      backgroundColor: '#FFFFFF',
+      padding: 15,
+      marginBottom: 10,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: '#E0E0E0',
+    },
+    itemTitle: {
+      fontSize: 18,
+      color: '#344E41',
+      fontWeight: 'bold',
+    },
+    itemDescription: {
+      fontSize: 16,
+      color: '#344E41',
+      marginTop: 5,
+    },
+    searchButton: {
+      backgroundColor: '#8aa8a1ff',
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderRadius: 20,
+      marginTop: 10,
+      alignItems: 'center',
+    },
+    buttonText: {
+      fontSize: 16,
+      color: '#FFFFFF',
+    },
+    errorMessage: {
+      fontSize: 18, // Set the font size to be bigger
+      color: '#2E8B57', // Set the color to be greenish
+      marginTop: 10,
+      textAlign: 'center',
+    },
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#DAD7CD' }}>
-      {/* <View style={{ backgroundColor: '#DAD7CD', padding: 10, alignItems: 'center' }}>
-        <Text style={{ fontSize: 24 }}>List Medicines</Text>
-      </View> */}
-
       <View style={{ backgroundColor: '#DAD7CD', padding: 10 }}>
-        <Text style={{ fontSize: 18, textAlign: 'center',color:'#344E41', marginVertical: 5 }}>
-          Enter symptoms or medicine name to find related medicines.
-        </Text>
-
         <TextInput
-          style={{ fontSize: 16, backgroundColor: '#DAD7CD', paddingHorizontal: 10, color: '#344E41', marginVertical: 5, textAlign: 'center' }}
+          style={{ 
+            fontSize: 16, 
+            backgroundColor: 'rgba(0, 0, 0, 0.1)', 
+            paddingHorizontal: 10, 
+            color: '#344E41', 
+            marginVertical: 10, 
+            borderRadius: 15,
+            height: 50,
+          }}
           placeholder="Enter symptoms or medicine name"
           onChangeText={text => setQuery(text)}
           value={query}
         />
-        <Button title="Search" onPress={handleSearch} color="#8aa8a1ff" style={{ marginVertical: 5 }} />
-        {/* <CustomButton title="Search" onPress={handleSearch} /> */}
+        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+          <Text style={styles.buttonText}>Search</Text>
+        </TouchableOpacity>
+
+        {errorMessage !== '' && <Text style={styles.errorMessage}>{errorMessage}</Text>}
 
         <FlatList
           data={searchResults}
@@ -64,11 +113,5 @@ const FindMedicinesScreen = ({ onSearch }) => {
     </SafeAreaView>
   );
 };
-
-const CustomButton = ({ title, onPress }) => (
-  <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
-    <Text style={styles.buttonText}>{title}</Text>
-  </TouchableOpacity>
-);
 
 export default FindMedicinesScreen;

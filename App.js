@@ -3,114 +3,50 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import styles from './app/styles'; 
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import { Button } from 'react-native';
+import { View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import styles from './app/styles';
 import medlistScreen from './app/listmedicine';
 import DiseasePredictionScreen from './app/diseasepredictionscreen';
 import ContactFormScreen from './app/contact';
-import {Appearance} from 'react-native';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image  } from 'react-native';
 import ChatScreen from './app/chatbot';
 import GeneralSymptomScreen from './app/generalsymptoms';
 
 const Stack = createStackNavigator();
-const drawer = createDrawerNavigator();
 
-
-  // const StartScreen = () => {
-  //   return (
-  //     <View style={styles.container}>
-  //       <Text style={styles.title}>Health App</Text>
-  //     </View>
-  //   );
-  // };
-
-  // const App = () => {
-  //   return (
-  //     <SafeAreaView style={{ flex: 1 }}>
-  //       <NavigationContainer>
-  //         <Stack.Navigator>
-  //           <Stack.Screen
-  //             name="Home"
-  //             component={HomeScreen}
-  //             options={{
-  //               header: () => (
-  //                 <View style={styles.customHeader}>
-  //                   <Text style={styles.headerText}>Health Prediction System</Text>
-  //                 </View>
-  //               ),
-  //             }}
-  //           />
-  //           <Stack.Screen
-  //             name="medlist"
-  //             component={medlistScreen}
-  //             options={{ headerShown: true,
-  //               header: () => (
-  //                 <View style={styles.customHeader}>
-  //                   <Text style={styles.headerText}>List medicines</Text>
-  //                 </View>
-  //               ), 
-  //               }}
-  //           />
-  //           <Stack.Screen
-  //             name="ContactForm"
-  //             component={ContactFormScreen}
-  //             options={{ headerShown: true,
-  //               header: () => (
-  //                 <View style={styles.customHeader}>
-  //                   <Text style={styles.headerText}>Contact us</Text>
-  //                 </View>
-  //               ),  }}
-  //           />
-  //           <Stack.Screen
-  //           name= "dplist"
-  //           component={DiseasePredictionScreen}
-  //           options= {{headerShown:true,
-  //           header: ()=>(
-  //             <View style={styles.customHeader}>
-  //               <Text style={styles.headerText}>Disease Prediction System</Text>
-  //             </View>
-  //           )}}
-
-  //           />
-  //         </Stack.Navigator>
-  //       </NavigationContainer>
-  //     </SafeAreaView>
-  //   );
-  // };
-
-  const App = () => {
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerStyle: {
-              backgroundColor: '#DAD7CD', // Set header background color
-            },
-            headerTintColor: '#000', // Set header text color
-            headerTitleStyle: {
-              fontWeight: 'bold', // Set header text style
-            },
-
-
-              gestureEnabled: true,
-              gestureDirection: 'horizontal',
-              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            }}>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Medicine List" component={medlistScreen} />
-            <Stack.Screen name="Contact Form" component={ContactFormScreen} />
-            <Stack.Screen name="Disease Prediction System" component={DiseasePredictionScreen} />
-            <Stack.Screen name="Chatbot" component={ChatScreen} />
-            <Stack.Screen name="GeneralSymptoms" component={GeneralSymptomScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
-    );
+const StartScreen = ({ navigation }) => {
+  const handleStartPress = () => {  
+    navigation.navigate('Home');
   };
+
+  return (
+    <View style={styles.container}>
+      <Text style={[styles.description, styles.healthAppText]}>Health App</Text>
+      <TouchableOpacity style={styles.buttonContainer} onPress={handleStartPress}>
+        <Text style={styles.buttonText}>Get Started</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+};
+
+const App = () => {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Start" component={StartScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerStyle: { backgroundColor: '#DAD7CD' }, headerTintColor: '#003C43', headerLeft:null }} />
+          <Stack.Screen name="Medicine List" component={medlistScreen}options={{ headerStyle: { backgroundColor: '#DAD7CD' }, headerTintColor: '#003C43',headerLeft:null }} />
+          <Stack.Screen name="Contact Form" component={ContactFormScreen}options={{ headerStyle: { backgroundColor: '#DAD7CD' }, headerTintColor: '#003C43', headerLeft:null }} />
+          <Stack.Screen name="Disease Prediction System" component={DiseasePredictionScreen}options={{ headerStyle: { backgroundColor: '#135D66' }, headerTintColor: '#003C43',headerLeft:null,  }} />
+          <Stack.Screen name="Chatbot" component={ChatScreen} options={{ headerStyle: { backgroundColor: '#135D66' }, headerTintColor: '#003C43', headerLeft:null }}/>
+          <Stack.Screen name="GeneralSymptoms" component={GeneralSymptomScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
+  );
+};
 
 const HomeScreen = ({ navigation }) => {
   const handleContactUsPress = () => {
@@ -121,38 +57,37 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate('Medicine List');
   };
 
-  const handledpPress =()=>
-  {
+  const handledpPress = () => {
     navigation.navigate('Disease Prediction System');
-  
   };
+
   const handleChatBotPress = () => {
     navigation.navigate('Chatbot');
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-      <Image
+        <Image
           source={require('./assets/health_iconl.png')} // Change path to your image
           style={styles.image} // Apply styles to your image if needed
         />
         <Text style={[styles.description, { color: '#344E41' }]}>
           This app uses advanced algorithms and medical data to predict the likelihood of various diseases based on user input.{"\n\n"}
-          Simply tap on one of the buttons below to start the prediction process.{"\n\n"}
+          Simply tap on one of the buttons below to start the+ prediction process.{"\n\n"}
           We also have a medicine list for you to check out if you need to find something specific for some symptom.{"\n\n"}
           And if you have any other medical query, then please let our chatbot guide you.
         </Text>
 
         <CustomButton title="Disease prediction" onPress={handledpPress} />
         <CustomButton title="List medicines" onPress={handlemedlistPress} />
-        <CustomButton title="List doctors" onPress={() => handleButtonPress(1)} />
-        <CustomButton title="Chatbot" onPress={handleChatBotPress()} />
+        {/* Add other buttons as needed */}
+        <CustomButton title="Chatbot" onPress={handleChatBotPress} />
         <CustomButton title="Contact us" onPress={handleContactUsPress} />
-
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Â© 2024 PRATEEK Inc.</Text>
+        <Text style={styles.footerText}>© 2024 PRATEEK Inc.</Text>
       </View>
     </View>
   );
@@ -163,38 +98,5 @@ const CustomButton = ({ title, onPress }) => (
     <Text style={styles.buttonText}>{title}</Text>
   </TouchableOpacity>
 );
-
-// function MyDrawer() {
-//   return (
-//     <Drawer.Navigator>
-//       <Drawer.Screen name="Feed" component={Feed} />
-//       <Drawer.Screen name="Article" component={Article} />
-//     </Drawer.Navigator>
-//   );
-// }
-
-const DrawerContent = () => (
-  <View style={styles.drawerContent}>
-    <Text style={styles.drawerItem}>Drawer Item 1</Text>
-    <Text style={styles.drawerItem}>Drawer Item 2</Text>
-    <Text style={styles.drawerItem}>Drawer Item 3</Text>
-    {/* Add more drawer items as needed */}
-  </View>
-);
-
-// const App = () => {
-//   return (
-//     <SafeAreaView style={{ flex: 1 }}>
-//       <NavigationContainer>
-//         <Drawer.Navigator drawerContent={DrawerContent}>
-//           <Drawer.Screen name="Home" component={HomeScreen} />
-//           <Drawer.Screen name="medlist" component={medlistScreen} />
-//           <Drawer.Screen name="ContactForm" component={ContactFormScreen} />
-//           <Drawer.Screen name="Profile" component={ProfileScreen} /> {/* Add Profile screen */}
-//         </Drawer.Navigator>
-//       </NavigationContainer>
-//     </SafeAreaView>
-//   );
-// };
 
 export default App;

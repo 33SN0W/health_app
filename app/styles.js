@@ -97,7 +97,15 @@ export default StyleSheet.create({
     bottom: 500,
     opacity: 0.2, // 
     width: '100%',
-  }
+  },
+
+  healthAppText: {
+    fontSize: 36, // Adjust as needed
+    fontWeight: 'bold',
+    // fontFamily: 'Arial',
+    color: '#003C43',
+    // Add any other styles you want
+  },
 });
 
 

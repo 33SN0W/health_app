@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Switch, Button, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 
 const symptoms = [
   "itching", "skin_rash", "nodal_skin_eruptions", "continuous_sneezing", "shivering", "chills", "joint_pain", "stomach_pain",
@@ -23,20 +23,21 @@ const symptoms = [
 ];
 
 const QuestionnairePage = () => {
-  const [answers, setAnswers] = useState({});
+  const [symptomsData, setSymptomsData] = useState(symptoms.map(symptom => ({ name: symptom, selected: false })));
 
-  const handleAnswer = (symptom, value) => {
-    setAnswers(prevAnswers => ({
-      ...prevAnswers,
-      [symptom]: value
-    }));
+  const handleAnswer = (index) => {
+    setSymptomsData(prevData => {
+      const newData = [...prevData];
+      newData[index] = { ...newData[index], selected: !newData[index].selected };
+      return newData;
+    });
   };
 
   const submitAnswers = () => {
-    const answeredSymptoms = Object.keys(answers).filter(symptom => answers[symptom]);
+    const answeredSymptoms = symptomsData.filter(symptom => symptom.selected).map(symptom => symptom.name);
     console.log("Symptoms answered yes:", answeredSymptoms);
     // Convert answered symptoms to JSON object
-    const symptomsData = { symptoms: answeredSymptoms };
+    const symptomsDataToSend = { symptoms: answeredSymptoms };
     
     // Example of sending data to a specific port using fetch
     fetch('http://localhost:YOUR_PORT_NUMBER', {
@@ -44,7 +45,7 @@ const QuestionnairePage = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(symptomsData),
+      body: JSON.stringify(symptomsDataToSend),
     })
     .then(response => response.json())
     .then(data => {
@@ -57,24 +58,41 @@ const QuestionnairePage = () => {
     });
   };
 
+  const renderSymptomTile = ({ item, index }) => {
+    return (
+      <TouchableOpacity 
+        onPress={() => handleAnswer(index)} 
+        style={[
+          styles.symptomContainer, 
+          symptomsData[index].selected && styles.selectedSymptom, 
+          symptomsData[index].selected && { backgroundColor: '#003C43' } // Apply the color when the tile is activated
+        ]}
+        activeOpacity={0.6} // Adjust press animation speed
+        activeBackgroundColor="#003C43" // Change background color when pressed
+      >
+        <Text style={styles.questionText}>{item.name.replace(/_/g, ' ').toUpperCase()}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Health Questionnaire</Text>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        {symptoms.map(symptom => (
-          <View key={symptom} style={styles.questionContainer}>
-            <Text style={styles.questionText}>{symptom.replace(/_/g, ' ')}</Text>
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={answers[symptom] ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={value => handleAnswer(symptom, value)}
-              value={answers[symptom] || false}
-            />
-          </View>
-        ))}
-      </ScrollView>
-      <Button title="Submit Answers" onPress={submitAnswers} />
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Please proceed to choose your symptoms</Text>
+        <TouchableOpacity 
+          style={styles.goButton} 
+          onPress={submitAnswers}
+        >
+          <Text style={styles.buttonText}>Go</Text>
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={symptomsData}
+        renderItem={renderSymptomTile}
+        keyExtractor={(item) => item.name}
+        numColumns={3}
+        contentContainerStyle={styles.scrollView}
+      />
     </View>
   );
 };
@@ -83,27 +101,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#135D66',
   },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  scrollView: {
-    paddingBottom: 20,
-  },
-  questionContainer: {
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#E3FEF7',
+  },
+  goButton: {
+    backgroundColor: '#003C43',
+    padding: 10,
+    borderRadius: 8,
     alignItems: 'center',
-    marginBottom: 15,
-    width: '100%',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  scrollView: {
+    paddingVertical: 10,
+  },
+  symptomContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    borderRadius: 8,
+    backgroundColor: '#135D66',
+  },
+  selectedSymptom: {
+    backgroundColor: '#81b0ff',
   },
   questionText: {
-    fontSize: 16,
-    flex: 1,
+    fontSize: 14,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: '#E3FEF7',
+    textAlign: 'center',
   },
 });
 

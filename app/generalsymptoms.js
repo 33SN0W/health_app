@@ -35,23 +35,44 @@ const QuestionnairePage = () => {
   const submitAnswers = () => {
     const answeredSymptoms = Object.keys(answers).filter(symptom => answers[symptom]);
     console.log("Symptoms answered yes:", answeredSymptoms);
-    // Send answeredSymptoms to the backend
+    // Convert answered symptoms to JSON object
+    const symptomsData = { symptoms: answeredSymptoms };
+    
+    // Example of sending data to a specific port using fetch
+    fetch('http://localhost:YOUR_PORT_NUMBER', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(symptomsData),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      // Handle success response from server
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle error
+    });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Health Questionnaire</Text>
+      {/* <Text style={styles.heading}>Health Questionnaire</Text> */}
       <ScrollView contentContainerStyle={styles.scrollView}>
         {symptoms.map(symptom => (
           <View key={symptom} style={styles.questionContainer}>
-            <Text style={styles.questionText}>{symptom.replace(/_/g, ' ')}</Text>
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={answers[symptom] ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={value => handleAnswer(symptom, value)}
-              value={answers[symptom] || false}
-            />
+            <View style={styles.symptomContainer}>
+              <Text style={styles.questionText}>{symptom.replace(/_/g, ' ').toUpperCase()}</Text>
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={answers[symptom] ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={value => handleAnswer(symptom, value)}
+                value={answers[symptom] || false}
+              />
+            </View>
           </View>
         ))}
       </ScrollView>
@@ -64,7 +85,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#dad7cd',
   },
   heading: {
     fontSize: 24,
@@ -76,15 +97,25 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   questionContainer: {
+    marginBottom: 10, // Adjusted to make boxes closer
+    width: '100%',
+  },
+  symptomContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 15,
-    width: '100%',
+    paddingHorizontal: 16, // Adjusted for bigger boxes
+    paddingVertical: 12, // Adjusted for bigger boxes
+    borderRadius: 24, // Adjusted for bigger boxes
+    // borderWidth: 1,
+    borderColor: '#003C43',
+    backgroundColor: '#f0f0f0',
   },
   questionText: {
-    fontSize: 16,
-    flex: 1,
+    fontSize: 18, // Adjusted for bigger text
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: '#003C43',
   },
 });
 
