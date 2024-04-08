@@ -19,40 +19,47 @@ const ContactFormScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        {/* <Text style={styles.header}>Contact Us</Text> */}
         <Text style={styles.label}>Name:</Text>
-        <TextInput
-          style={styles.input}
-          value={name}
-          onChangeText={setName}
-          placeholder="Enter your name"
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+            placeholder="Enter your name"
+          />
+        </View>
         <Text style={styles.label}>Phone Number:</Text>
-         <TextInput
-          style={styles.input}
-          value={number}
-          onChangeText={setNumber}
-          placeholder="Enter your phone number"
-          keyboardType="phone-pad"
-        /> 
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            value={number}
+            onChangeText={setNumber}
+            placeholder="Enter your phone number"
+            keyboardType="phone-pad"
+          /> 
+        </View>
         <Text style={styles.label}>Address:</Text>
-        <TextInput
-          style={styles.input}
-          value={address}
-          onChangeText={setAddress}
-          placeholder="Enter your address"
-          multiline
-          numberOfLines={3}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            value={address}
+            onChangeText={setAddress}
+            placeholder="Enter your address"
+            multiline
+            numberOfLines={3}
+          />
+        </View>
         <Text style={styles.label}>Medical Condition:</Text>
-        <TextInput
-          style={[styles.input, styles.medicalInput]}
-          value={medicalCondition}
-          onChangeText={setMedicalCondition}
-          placeholder="Describe your medical condition"
-          multiline
-          numberOfLines={5}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={[styles.input, styles.medicalInput]}
+            value={medicalCondition}
+            onChangeText={setMedicalCondition}
+            placeholder="Describe your medical condition"
+            multiline
+            numberOfLines={5}
+          />
+        </View>
         <Button
           title="Submit"
           onPress={handleSubmit}
@@ -75,29 +82,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  // header: {
-  //   fontSize: 32,
-  //   fontWeight: 'bold',
-  //   color: '#30334c',
-  //   marginBottom: 20,
-  //   textAlign: 'center',
-  // },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
     color: '#344E41',
   },
-  input: {
-    backgroundColor: '#DAD7CD',
-    borderRadius: 5,
+  inputContainer: {
     marginBottom: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#8aa8a1ff',
+    backgroundColor: '#ffffff',
     paddingHorizontal: 10,
     paddingVertical: 8,
+  },
+  input: {
     fontSize: 16,
+    minHeight: 40,
   },
   medicalInput: {
-    height: 120,
+    minHeight: 120,
+  },
+  buttonContainer: {
+    marginTop: 10,
   },
   contactInfo: {
     marginTop: 20,
