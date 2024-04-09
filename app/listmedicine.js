@@ -10,12 +10,10 @@ const FindMedicinesScreen = ({ onSearch }) => {
   const handleSearch = () => {
     // Search logic based on the dataset
     const results = dataset.filter(item => {
-      // Additional checks to prevent errors
       if (!item.Description || !item.Drug_Name) {
-        return false; // Skip this item if Description or Drug_Name is missing
+        return false; 
       }
 
-      // Assuming the dataset has properties for symptoms and medicine names
       return (
         item.Description.toLowerCase().includes(query.toLowerCase()) ||
         item.Drug_Name.toLowerCase().includes(query.toLowerCase())
@@ -73,8 +71,8 @@ const FindMedicinesScreen = ({ onSearch }) => {
       color: '#FFFFFF',
     },
     errorMessage: {
-      fontSize: 18, // Set the font size to be bigger
-      color: '#2E8B57', // Set the color to be greenish
+      fontSize: 18, 
+      color: '#2E8B57',
       marginTop: 10,
       textAlign: 'center',
     },
