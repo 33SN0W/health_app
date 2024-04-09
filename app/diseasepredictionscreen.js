@@ -36,11 +36,9 @@ const QuestionnairePage = () => {
   const submitAnswers = () => {
     const answeredSymptoms = symptomsData.filter(symptom => symptom.selected).map(symptom => symptom.name);
     console.log("Symptoms answered yes:", answeredSymptoms);
-    // Convert answered symptoms to JSON object
     const symptomsDataToSend = { symptoms: answeredSymptoms };
     
-    // Example of sending data to a specific port using fetch
-    fetch('http://localhost:YOUR_PORT_NUMBER', {
+    fetch('http://localhost:8080', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,11 +48,9 @@ const QuestionnairePage = () => {
     .then(response => response.json())
     .then(data => {
       console.log('Success:', data);
-      // Handle success response from server
     })
     .catch(error => {
       console.error('Error:', error);
-      // Handle error
     });
   };
 
@@ -65,10 +61,10 @@ const QuestionnairePage = () => {
         style={[
           styles.symptomContainer, 
           symptomsData[index].selected && styles.selectedSymptom, 
-          symptomsData[index].selected && { backgroundColor: '#003C43' } // Apply the color when the tile is activated
+          symptomsData[index].selected && { backgroundColor: '#003C43' } 
         ]}
-        activeOpacity={0.6} // Adjust press animation speed
-        activeBackgroundColor="#003C43" // Change background color when pressed
+        activeOpacity={0.6} 
+        activeBackgroundColor="#003C43" 
       >
         <Text style={styles.questionText}>{item.name.replace(/_/g, ' ').toUpperCase()}</Text>
       </TouchableOpacity>
