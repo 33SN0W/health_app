@@ -45,7 +45,7 @@ const QuestionnairePage = ({ navigation }) => {
     const answeredSymptoms = Object.keys(answers).filter(symptom => answers[symptom]);
     const symptomsData = { symptoms: answeredSymptoms };
 
-    fetch('http://localhost:YOUR_PORT_NUMBER', {
+    fetch('http://localhost:8080', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
