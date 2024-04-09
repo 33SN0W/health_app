@@ -59,7 +59,7 @@ export default StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: '#8aa8a1ff',
-    borderRadius: 30, // half of the desired button height for oval shape
+    borderRadius: 30,  
     paddingVertical: 15,
     paddingHorizontal: 30,
     marginBottom: 10,
@@ -73,14 +73,14 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   customHeader: {
-    height: 60, // Customize header height as needed
+    height: 60,  
     backgroundColor: '#dad7cd',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 100, // Adjust the height as needed
-    justifyContent: 'flex-end', // Align the content to the bottom
-    alignItems: 'center', // Center horizontally
-    paddingBottom: 20, // Add some padding at the bottom for spacing
+    height: 100,  
+    justifyContent: 'flex-end',  
+    alignItems: 'center', 
+    paddingBottom: 20, 
     backgroundColor: '#dad7cd', 
   },
   headerText: {
@@ -89,7 +89,7 @@ export default StyleSheet.create({
     color: '#344E41',
   },
   image: {flex: 1,
-    resizeMode: 'cover', // Cover the entire container
+    resizeMode: 'cover',  
     position: 'absolute',
     top:-250,
     left: 35,
@@ -100,13 +100,11 @@ export default StyleSheet.create({
   },
 
   healthAppText: {
-    fontSize: 36, // Adjust as needed
+    fontSize: 36,  
     fontWeight: 'bold',
     // fontFamily: 'Arial',
     color: '#003C43',
-    // Add any other styles you want
-  },
-});
+   },});
 
 
 
