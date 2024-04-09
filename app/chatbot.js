@@ -25,7 +25,7 @@ const ChatbotScreen = () => {
     setText('');
 
     try {
-      const response = await fetch('YOUR_BACKEND_URL', {
+      const response = await fetch('https://localhost:8080/get', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
