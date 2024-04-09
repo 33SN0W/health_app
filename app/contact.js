@@ -8,8 +8,6 @@ const ContactFormScreen = () => {
   const [medicalCondition, setMedicalCondition] = useState('');
 
   const handleSubmit = () => {
-    // Handle form submission logic here
-    // You can send the form data to your server or perform any other action
     console.log('Name:', name);
     console.log('Number:', number);
     console.log('Address:', address);
