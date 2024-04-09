@@ -18,8 +18,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    // Use your fancy font here
-    fontFamily: 'YourCustomFont', // Change 'YourCustomFont' to your actual font family name
   },
 });
 
