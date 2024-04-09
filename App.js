@@ -69,8 +69,8 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.content}>
         <Image
-          source={require('./assets/health_iconl.png')} // Change path to your image
-          style={styles.image} // Apply styles to your image if needed
+          source={require('./assets/health_iconl.png')} 
+          style={styles.image}
         />
         <Text style={[styles.description, { color: '#344E41' }]}>
           This app uses advanced algorithms and medical data to predict the likelihood of various diseases based on user input.{"\n\n"}
@@ -81,7 +81,6 @@ const HomeScreen = ({ navigation }) => {
 
         <CustomButton title="Disease prediction" onPress={handledpPress} />
         <CustomButton title="List medicines" onPress={handlemedlistPress} />
-        {/* Add other buttons as needed */}
         <CustomButton title="Chatbot" onPress={handleChatBotPress} />
         <CustomButton title="Contact us" onPress={handleContactUsPress} />
       </View>
